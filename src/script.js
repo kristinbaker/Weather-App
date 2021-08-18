@@ -1,169 +1,121 @@
-h1 {
-  text-align: center;
-  margin-top: 20px;
-  padding-top: 20px;
-  display: block;
-  font-size: 80px;
+let currentData = new Date();
+let currentTime = document.querySelector("#current-time");
+let currentDate = document.querySelector("#current-date");
+let form = document.querySelector("#search-city-button");
+let celsiusLink = document.querySelector("#celsius-link");
+let apiKey = "f1b97e6818bf3a43bc9a1319c9ff238a";
+let locationButton = document.querySelector("#location-button");
+let units = `imperial`;
+
+locationButton.addEventListener("click", findLocation);
+celsiusLink.addEventListener("click", convertToCelsius);
+form.addEventListener("keypress", searchCity);
+currentDate.innerText = updateDate(currentData);
+currentTime.innerText = updateTime(currentData);
+
+function updateTime() {
+  let currentHour = currentData.getHours();
+  let currentMinutes = currentData.getMinutes();
+  let timeOfDay;
+
+  if (currentMinutes < 10) {
+    currentMinutes = "0" + currentMinutes;
+  }
+
+  if (currentHour < 12) {
+    timeOfDay = `AM`;
+  } else if (currentHour === 12) {
+    timeOfDay = `PM`;
+  } else {
+    currentHour = currentHour - 12;
+    timeOfDay = `PM`;
+  }
+  let updatedTime = `${currentHour}:${currentMinutes} ${timeOfDay}`;
+  return updatedTime;
 }
 
-.container {
-  max-width: 600px;
-  margin-top: 0px;
-  padding-bottom: 100px;
-  padding-left: 25px;
-  padding-right: 25px;
-  background-color: #7db5ac;
-  border-radius: 12px;
+function updateDate() {
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let currentDay = days[currentData.getDay()];
+  let currentMonth = months[currentData.getMonth()];
+  let dayNumber = currentData.getDate();
+  let updatedDate = `${currentDay}, ${currentMonth} ${dayNumber}`;
+  return updatedDate;
 }
 
-.rotate {
-  transform: rotate(220deg);
-  padding: 21px 8px;
-  margin: 0 auto;
-  font-size: 18px;
-  display: inline-block;
-  color: #fff;
-  float: left;
+function findLocation(event) {
+  navigator.geolocation.getCurrentPosition(updateCurrentLocation);
 }
 
-.containerWeather {
-  max-width: 300px;
-  margin: 0 auto;
-  margin-top: 60px;
-  margin-bottom: 70px;
-  padding-bottom: 40px;
-  padding-top: 0px;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 12px;
+function updateCurrentLocation(position) {
+  let latitude = Math.round(position.coords.latitude);
+  let longitude = Math.round(position.coords.longitude);
+  let apiURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=${units}&appid=${apiKey}`;
+  axios.get(apiURL).then((response) => {
+    showLocation(response);
+    updateTemperature(response);
+  });
 }
 
-.currentWeather {
-  text-align: center;
-  color: white;
-  font-size: 25px;
-  margin-top: 10px;
+function showLocation(response) {
+  let currentCity = document.querySelector(`#current-location`);
+  let newCity = response.data.name;
+  currentCity.innerHTML = `${newCity}`;
 }
 
-.weeklyForecast {
-  display: inline-block;
-  padding: 30px;
-  margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  width: 105px;
+function updateTemperature(response) {
+  let temperature = Math.round(response.data.main.temp);
+  let currentTemp = document.querySelector(`#current-temp`);
+  currentTemp.innerHTML = `${temperature}℉`;
 }
 
-.daysContainer {
-  text-align: center;
+function searchCity(event) {
+  if (event.charCode === 13) {
+    event.preventDefault();
+    let cityInput = document.querySelector("#search-city");
+    let newCity = cityInput.value;
+    let currentLocation = document.querySelector("#current-location");
+    currentLocation.innerHTML = `${cityInput.value}`;
+    cityInput.value = "";
+    getSearchCityTemp(newCity);
+  }
 }
 
-.todaysHighAndLow {
-  color: white;
-  margin-inline-start: 25%;
-  margin-inline-end: 25%;
-  text-align: center;
-  font-size: 25px;
-}
-.daysOfTheWeek {
-  color: #fff;
-  text-align: center;
-  font-size: 25px;
+function getSearchCityTemp(newCity) {
+  let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${newCity}&units=${units}&appid=${apiKey}`;
+  axios.get(apiURL).then(updateSearchCityTemp);
 }
 
-.emojisOfWeather {
-  color: #fff;
-  text-align: center;
-  font-size: 25px;
+function updateSearchCityTemp(response) {
+  let temperature = Math.round(response.data.main.temp);
+  let currentTemp = document.querySelector(`#current-temp`);
+  currentTemp.innerHTML = `${temperature}℉`;
 }
 
-.highsOfTheWeek {
-  color: #fff;
-  text-align: center;
-}
-
-.lowsOfTheWeek {
-  color: #fff;
-  text-align: center;
-}
-
-.currentDateTime {
-  text-align: right;
-  color: white;
-  font-size: 20px;
-  padding-top: 25px;
-  display: block;
-  float: right;
-}
-
-#location-button {
-  background: none;
-  border: none;
-  color: white;
-}
-
-#first-break {
-  margin-inline-start: 30%;
-  margin-inline-end: 30%;
-  color: white;
-  font-weight: bolder;
-  opacity: 100%;
-}
-
-#current-location {
-  float: left;
-  color: #fff;
-  font-size: 30px;
-  margin-bottom: 0px;
-  display: inline-block;
-  padding-top: 25px;
-}
-
-#temp-measure {
-  padding-top: 0px;
-  display: inline-block;
-}
-#celsius-link {
-  text-decoration: none;
-  color: white;
-}
-
-#celsius-link:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-#fahrenheit-link {
-  text-decoration: none;
-  color: white;
-}
-
-#fahrenheit-link:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-#current-temp {
-  text-align: center;
-  color: white;
-  font-size: 45px;
-}
-
-#todays-rain-wind {
-  color: white;
-  margin-inline-start: 15%;
-  margin-inline-end: 15%;
-  text-align: center;
-  font-size: 15px;
-  padding-top: 10px;
-}
-
-#search-city {
-  float: right;
-  border-style: none;
-  color: #939aa9;
-  background-color: whitesmoke;
-  text-align: right;
-  background: #7db5ac;
-  width: 200px;
-  margin-top: 60px;
+function convertToCelsius(event) {
+  event.preventDefault();
+  let currentTemp = document.querySelector("#current-temp");
+  currentTemp.innerHTML = "24 ℃";
 }
