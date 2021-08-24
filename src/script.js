@@ -75,20 +75,35 @@ function updateCurrentLocation(position) {
   let apiURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=${units}&appid=${apiKey}`;
   axios.get(apiURL).then((response) => {
     showLocation(response);
-    updateTemperature(response);
+    updateCurrentWeather(response);
   });
 }
 
 function showLocation(response) {
-  let currentCity = document.querySelector(`#current-location`);
   let newCity = response.data.name;
   currentCity.innerHTML = `${newCity}`;
+  let currentCity = document.querySelector(`#current-location`);
 }
 
-function updateTemperature(response) {
+function updateCurrentWeather(response) {
   let temperature = Math.round(response.data.main.temp);
   let currentTemp = document.querySelector(`#current-temp`);
+  let currentWeatherEmoji = document.querySelector(`#current-weather-emoji`);
+  let updateCurrentWeatherEmoji = response.data.weather[0].icon;
+  let currentWeatherDescription = document.querySelector(
+    `#current-weather-description`
+  );
+  let updateCurrentWeatherDescription = response.data.weather[0].description;
+
   currentTemp.innerHTML = `${temperature}℉`;
+  currentWeatherEmoji.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${updateCurrentWeatherEmoji}@2x.png`
+  );
+  currentWeatherDescription.setAttribute(
+    "alt",
+    `http://openweathermap.org/img/wn/${updateCurrentWeatherDescription}@2x.png`
+  );
 }
 
 function searchCity(event) {
@@ -105,13 +120,25 @@ function searchCity(event) {
 
 function getSearchCityTemp(newCity) {
   let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${newCity}&units=${units}&appid=${apiKey}`;
-  axios.get(apiURL).then(updateSearchCityTemp);
+  axios.get(apiURL).then(updateSearchCityCurrentWeather);
 }
 
-function updateSearchCityTemp(response) {
+function updateSearchCityCurrentWeather(response) {
   let temperature = Math.round(response.data.main.temp);
   let currentTemp = document.querySelector(`#current-temp`);
+  let currentWeatherEmoji = document.querySelector(`#current-weather-emoji`);
+  let updateCurrentWeatherEmoji = response.data.weather[0].icon;
+  let currentWeatherDescription = document.querySelector(
+    `#current-weather-description`
+  );
+  let updateCurrentWeatherDescription = response.data.weather[0].description;
+
   currentTemp.innerHTML = `${temperature}℉`;
+  currentWeatherEmoji.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${updateCurrentWeatherEmoji}@2x.png`
+  );
+  currentWeatherDescription.innerHTML = `${updateCurrentWeatherDescription}`;
 }
 
 function convertToCelsius(event) {
