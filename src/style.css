@@ -93,11 +93,20 @@ h1 {
   color: grey;
   text-align: center;
 }
+a {
+  text-decoration-color: grey;
+  color: grey;
+}
+
+a:hover {
+  color: white;
+}
 
 #location-button {
   background: none;
   border: none;
   color: white;
+  text-transform: capitalize;
 }
 
 #current-weather-description {
@@ -105,6 +114,7 @@ h1 {
   color: white;
   font-size: 25px;
   margin-top: 5px;
+  text-transform: capitalize;
 }
 
 #first-break {

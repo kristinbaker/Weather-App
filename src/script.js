@@ -4,10 +4,8 @@ let currentDate = document.querySelector("#current-date");
 let form = document.querySelector("#search-city-button");
 let celsiusLink = document.querySelector("#celsius-link");
 let apiKey = "f1b97e6818bf3a43bc9a1319c9ff238a";
-let locationButton = document.querySelector("#location-button");
 let units = `imperial`;
 
-locationButton.addEventListener("click", findLocation);
 celsiusLink.addEventListener("click", convertToCelsius);
 form.addEventListener("keypress", searchCity);
 currentDate.innerText = updateDate(currentData);
@@ -65,9 +63,10 @@ function updateDate() {
   return updatedDate;
 }
 
-function findLocation(event) {
+function findLocation() {
   navigator.geolocation.getCurrentPosition(updateCurrentLocation);
 }
+findLocation();
 
 function updateCurrentLocation(position) {
   let latitude = Math.round(position.coords.latitude);
@@ -80,9 +79,10 @@ function updateCurrentLocation(position) {
 }
 
 function showLocation(response) {
+  console.log(response.data);
   let newCity = response.data.name;
-  currentCity.innerHTML = `${newCity}`;
   let currentCity = document.querySelector(`#current-location`);
+  currentCity.innerHTML = `${newCity}`;
 }
 
 function updateCurrentWeather(response) {

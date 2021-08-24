@@ -10,7 +10,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wireframe</title>
+    <title>Weather App</title>
     <link rel="stylesheet" href="src/style.css" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
@@ -19,13 +19,13 @@
     <div class="container">
       <button id="location-button">
         <div class="rotate">➢</div>
-        <div id="current-location">Austin</div>
+        <div id="current-location"></div>
       </button>
 
       <div class="currentDateTime">
-        <span id="current-date">Tuesday , July 27</span>
+        <span id="current-date"></span>
         <br />
-        <span id="current-time">8:38 AM</span>
+        <span id="current-time"></span>
       </div>
 
       <div class="containerWeather">
@@ -38,7 +38,6 @@
         <div id="current-weather-description"></div>
 
         <div id="current-temp">
-          75
           <div id="temp-measure">
             <span> <a href="" id="celsius-link"> ℉ </a> </span>
           </div>
