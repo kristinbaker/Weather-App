@@ -16,24 +16,15 @@ h1 {
   border-radius: 12px;
 }
 
-.rotate {
-  transform: rotate(220deg);
-  padding: 21px 8px;
-  margin: 0 auto;
-  font-size: 18px;
-  display: inline-block;
-  color: #fff;
-  float: left;
-}
-
-.containerWeather {
+.currentWeatherContainer {
   max-width: 300px;
-  margin: 0 auto;
-  padding-bottom: 40px;
-  padding-top: 0px;
+  margin: 35px auto;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   text-align: center;
+  display: block;
+  padding-top: 25px;
+  padding-bottom: 50px;
 }
 
 .weeklyForecast {
@@ -78,13 +69,12 @@ h1 {
   text-align: center;
 }
 
-.currentDateTime {
-  text-align: right;
+.currentLocationDateTime {
+  text-align: left;
   color: white;
-  font-size: 20px;
-  padding-top: 15px;
-  display: block;
-  float: right;
+  font-size: 15px;
+  margin-top: 10px;
+  display: inline-block;
 }
 
 .footer {
@@ -111,11 +101,18 @@ a:hover {
   padding-top: 10px;
 }
 
+.tempUnits {
+  padding-top: 0px;
+  display: inline-block;
+}
+
 #location-button {
   background: none;
   border: none;
   color: white;
   text-transform: capitalize;
+  margin: 0 auto;
+  padding-left: 0;
 }
 
 #current-weather-description {
@@ -137,16 +134,12 @@ a:hover {
 #current-location {
   float: left;
   color: #fff;
-  font-size: 30px;
+  font-size: 25px;
   margin-bottom: 0px;
   display: inline-block;
   padding-top: 15px;
 }
 
-#temp-measure {
-  padding-top: 0px;
-  display: inline-block;
-}
 #celsius-link {
   text-decoration: none;
   color: white;
@@ -175,10 +168,20 @@ a:hover {
 
 #search-city {
   display: block;
-  margin: 40px auto;
+  margin: 0 auto;
   border: none;
-  color: grey;
+  color: white;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   text-align: center;
+}
+
+#search-city-button {
+  margin-top: 25px;
+  float: right;
+  color: white;
+}
+
+::placeholder {
+  color: white;
 }
