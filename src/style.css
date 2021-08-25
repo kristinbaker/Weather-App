@@ -54,7 +54,7 @@ h1 {
   margin-inline-start: 25%;
   margin-inline-end: 25%;
   text-align: center;
-  font-size: 25px;
+  font-size: 20px;
 }
 .daysOfTheWeek {
   color: #fff;
@@ -100,6 +100,15 @@ a {
 
 a:hover {
   color: white;
+}
+
+.currentRainWind {
+  color: white;
+  margin-inline-start: 15%;
+  margin-inline-end: 15%;
+  text-align: center;
+  font-size: 15px;
+  padding-top: 10px;
 }
 
 #location-button {
@@ -162,15 +171,6 @@ a:hover {
   text-align: center;
   color: white;
   font-size: 45px;
-}
-
-#todays-rain-wind {
-  color: white;
-  margin-inline-start: 15%;
-  margin-inline-end: 15%;
-  text-align: center;
-  font-size: 15px;
-  padding-top: 10px;
 }
 
 #search-city {

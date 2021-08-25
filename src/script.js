@@ -10,6 +10,7 @@ celsiusLink.addEventListener("click", convertToCelsius);
 form.addEventListener("keypress", searchCity);
 currentDate.innerText = updateDate(currentData);
 currentTime.innerText = updateTime(currentData);
+findLocation();
 
 function updateTime() {
   let currentHour = currentData.getHours();
@@ -63,10 +64,16 @@ function updateDate() {
   return updatedDate;
 }
 
+function locationButton() {
+  findLocation();
+}
+
+let button = document.querySelector("#location-button");
+button.addEventListener("click", locationButton);
+
 function findLocation() {
   navigator.geolocation.getCurrentPosition(updateCurrentLocation);
 }
-findLocation();
 
 function updateCurrentLocation(position) {
   let latitude = Math.round(position.coords.latitude);
@@ -79,31 +86,39 @@ function updateCurrentLocation(position) {
 }
 
 function showLocation(response) {
-  console.log(response.data);
   let newCity = response.data.name;
   let currentCity = document.querySelector(`#current-location`);
   currentCity.innerHTML = `${newCity}`;
 }
 
 function updateCurrentWeather(response) {
-  let temperature = Math.round(response.data.main.temp);
   let currentTemp = document.querySelector(`#current-temp`);
   let currentWeatherEmoji = document.querySelector(`#current-weather-emoji`);
-  let updateCurrentWeatherEmoji = response.data.weather[0].icon;
   let currentWeatherDescription = document.querySelector(
     `#current-weather-description`
   );
+  let currentHigh = document.querySelector(`#current-high`);
+  let currentLow = document.querySelector(`#current-low`);
+  let wind = document.querySelector(`#wind`);
+  let humidity = document.querySelector(`#humidity`);
+  let temperature = Math.round(response.data.main.temp);
+  let updateCurrentWeatherEmoji = response.data.weather[0].icon;
   let updateCurrentWeatherDescription = response.data.weather[0].description;
+  let updateCurrentHigh = Math.round(response.data.main.temp_max);
+  let updateCurrentLow = Math.round(response.data.main.temp_min);
+  let updateWind = Math.round(response.data.wind.speed);
+  let updateHumidity = Math.round(response.data.main.humidity);
 
   currentTemp.innerHTML = `${temperature}℉`;
+  currentHigh.innerHTML = `H:${updateCurrentHigh}℉`;
+  currentLow.innerHTML = `L:${updateCurrentLow}℉`;
+  wind.innerHTML = `wind: ${updateWind} mph`;
+  humidity.innerHTML = `humidity: ${updateHumidity}%`;
   currentWeatherEmoji.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${updateCurrentWeatherEmoji}@2x.png`
   );
-  currentWeatherDescription.setAttribute(
-    "alt",
-    `http://openweathermap.org/img/wn/${updateCurrentWeatherDescription}@2x.png`
-  );
+  currentWeatherDescription.innerHTML = `${updateCurrentWeatherDescription}`;
 }
 
 function searchCity(event) {
@@ -124,16 +139,29 @@ function getSearchCityTemp(newCity) {
 }
 
 function updateSearchCityCurrentWeather(response) {
-  let temperature = Math.round(response.data.main.temp);
+  console.log(response.data);
   let currentTemp = document.querySelector(`#current-temp`);
   let currentWeatherEmoji = document.querySelector(`#current-weather-emoji`);
-  let updateCurrentWeatherEmoji = response.data.weather[0].icon;
   let currentWeatherDescription = document.querySelector(
     `#current-weather-description`
   );
+  let currentHigh = document.querySelector(`#current-high`);
+  let currentLow = document.querySelector(`#current-low`);
+  let wind = document.querySelector(`#wind`);
+  let humidity = document.querySelector(`#humidity`);
+  let temperature = Math.round(response.data.main.temp);
+  let updateCurrentWeatherEmoji = response.data.weather[0].icon;
   let updateCurrentWeatherDescription = response.data.weather[0].description;
+  let updateCurrentHigh = Math.round(response.data.main.temp_max);
+  let updateCurrentLow = Math.round(response.data.main.temp_min);
+  let updateWind = Math.round(response.data.wind.speed);
+  let updateHumidity = Math.round(response.data.main.humidity);
 
+  humidity.innerHTML = `humidity: ${updateHumidity}%`;
   currentTemp.innerHTML = `${temperature}℉`;
+  currentHigh.innerHTML = `H:${updateCurrentHigh}℉`;
+  currentLow.innerHTML = `L:${updateCurrentLow}℉`;
+  wind.innerHTML = `wind: ${updateWind} mph`;
   currentWeatherEmoji.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${updateCurrentWeatherEmoji}@2x.png`
