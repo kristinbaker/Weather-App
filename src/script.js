@@ -5,6 +5,7 @@ let form = document.querySelector("#search-city-button");
 let celsiusLink = document.querySelector("#celsius-link");
 let apiKey = "f1b97e6818bf3a43bc9a1319c9ff238a";
 let units = `imperial`;
+let fahrenheitTemperature = null;
 
 celsiusLink.addEventListener("click", convertToCelsius);
 form.addEventListener("keypress", searchCity);
@@ -97,11 +98,12 @@ function updateCurrentWeather(response) {
   let currentWeatherDescription = document.querySelector(
     `#current-weather-description`
   );
+  fahrenheitTemperature = response.data.main.temp;
   let currentHigh = document.querySelector(`#current-high`);
   let currentLow = document.querySelector(`#current-low`);
   let wind = document.querySelector(`#wind`);
   let humidity = document.querySelector(`#humidity`);
-  let temperature = Math.round(response.data.main.temp);
+  let temperature = Math.round(fahrenheitTemperature);
   let updateCurrentWeatherEmoji = response.data.weather[0].icon;
   let updateCurrentWeatherDescription = response.data.weather[0].description;
   let updateCurrentHigh = Math.round(response.data.main.temp_max);
@@ -109,7 +111,7 @@ function updateCurrentWeather(response) {
   let updateWind = Math.round(response.data.wind.speed);
   let updateHumidity = Math.round(response.data.main.humidity);
 
-  currentTemp.innerHTML = `${temperature}℉`;
+  currentTemp.innerHTML = `${temperature}`;
   currentHigh.innerHTML = `H:${updateCurrentHigh}℉`;
   currentLow.innerHTML = `L:${updateCurrentLow}℉`;
   wind.innerHTML = `wind: ${updateWind} mph`;
@@ -158,7 +160,7 @@ function updateSearchCityCurrentWeather(response) {
   let updateHumidity = Math.round(response.data.main.humidity);
 
   humidity.innerHTML = `humidity: ${updateHumidity}%`;
-  currentTemp.innerHTML = `${temperature}℉`;
+  currentTemp.innerHTML = `${temperature}`;
   currentHigh.innerHTML = `H:${updateCurrentHigh}℉`;
   currentLow.innerHTML = `L:${updateCurrentLow}℉`;
   wind.innerHTML = `wind: ${updateWind} mph`;
@@ -172,5 +174,6 @@ function updateSearchCityCurrentWeather(response) {
 function convertToCelsius(event) {
   event.preventDefault();
   let currentTemp = document.querySelector("#current-temp");
-  currentTemp.innerHTML = "24 ℃";
+  let celsiusTemp = Math.round((`${fahrenheitTemperature} - 32` * 5) / 9);
+  currentTemp.innerHTML = `${celsiusTemp}`;
 }

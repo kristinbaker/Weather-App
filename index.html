@@ -17,6 +17,10 @@
 
   <body>
     <div class="container">
+      <form id="search-city-button">
+        <input type="text" id="search-city" placeholder="search city" />
+      </form>
+      <br />
       <button id="location-button">
         <div class="rotate">➢</div>
         <div id="current-location"></div>
@@ -37,9 +41,11 @@
 
         <div id="current-weather-description"></div>
 
-        <div id="current-temp">
-          <div id="temp-measure">
-            <span> <a href="" id="celsius-link"> ℉ </a> </span>
+        <div>
+          <div class="tempUnits">
+            <span id="current-temp"> </span>
+            <a href="" id="fahrenheit-link"> ℉ </a> |
+            <a href="" id="celsius-link"> ℃ </a>
           </div>
         </div>
 
@@ -94,11 +100,6 @@
           <div class="col lowsOfTheWeek">75℉</div>
         </div>
       </div>
-
-      <form id="search-city-button">
-        <input type="text" id="search-city" placeholder="search city" />
-      </form>
-
       <div class="footer">
         <a href="https://github.com/kristinbaker/weather-app">Open-source</a>
         code by Kristin Baker
