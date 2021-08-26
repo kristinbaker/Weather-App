@@ -191,8 +191,8 @@ function convertToCelsius(event) {
   let currentCelsiusHigh = Math.round((currentFahrenheitHigh - 32) * (5 / 9));
   let currentCelsiusLow = Math.round((currentFahrenheitLow - 32) * (5 / 9));
   currentTemp.innerHTML = `${currentCelsiusTemp}`;
-  currentHigh.innerHTML = `H: ${currentCelsiusHigh}℃`;
-  currentLow.innerHTML = `L: ${currentCelsiusLow}℃`;
+  currentHigh.innerHTML = `H:${currentCelsiusHigh}℃`;
+  currentLow.innerHTML = `L:${currentCelsiusLow}℃`;
 }
 
 function convertToFahrenheit(event) {
@@ -204,6 +204,6 @@ function convertToFahrenheit(event) {
   let updateFahrenheitLow = Math.round(currentFahrenheitLow);
 
   currentTemp.innerHTML = Math.round(currentFahrenheitTemperature);
-  currentHigh.innerHTML = `H: ${updateFahrenheitHigh} ℉`;
-  currentLow.innerHTML = `L: ${updateFahrenheitLow} ℉`;
+  currentHigh.innerHTML = `H:${updateFahrenheitHigh}℉`;
+  currentLow.innerHTML = `L:${updateFahrenheitLow}℉`;
 }
