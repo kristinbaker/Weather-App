@@ -180,9 +180,37 @@ function updateSearchCityCurrentWeather(response) {
   currentWeatherDescription.innerHTML = `${updateCurrentWeatherDescription}`;
 }
 
+function displayForecast() {
+  let forecastElement = document.querySelector(`#forecast`);
+  let forecastHTML = "";
+  let days = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
+  days.forEach(function (days) {
+    forecastHTML =
+      forecastHTML +
+      `
+    <div class="row-forecast">
+      <div class="col weather-forecast-date">${days}</div>
+      <div class="col weather-forecast-emoji">
+        <img
+          src="http://openweathermap.org/img/wn/10d@2x.png"
+          alt=""
+          width="42"
+        />
+      </div>
+      <div class="col weather-forecast-high">95℉</div>
+      <div class="col weather-forecast-low">73℉</div>
+    </div>
+  `;
+  });
+
+  forecastElement.innerHTML = forecastHTML;
+}
+
+displayForecast();
+
 function convertToCelsius(event) {
   event.preventDefault();
-  let currentTemp = document.querySelector("#current-temp");
+  let currentTemp = document.querySelector(`#current-temp`);
   let currentHigh = document.querySelector(`#current-high`);
   let currentLow = document.querySelector(`#current-low`);
   let currentCelsiusTemp = Math.round(
