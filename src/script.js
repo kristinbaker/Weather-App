@@ -118,8 +118,8 @@ function updateCurrentWeather(response) {
   let updateHumidity = Math.round(response.data.main.humidity);
 
   currentTemp.innerHTML = `${temperature}`;
-  currentHigh.innerHTML = `H:${updateCurrentHigh}℉`;
-  currentLow.innerHTML = `L:${updateCurrentLow}℉`;
+  currentHigh.innerHTML = `H:${updateCurrentHigh}`;
+  currentLow.innerHTML = `L:${updateCurrentLow}`;
   wind.innerHTML = `wind: ${updateWind} mph`;
   humidity.innerHTML = `humidity: ${updateHumidity}%`;
   currentWeatherEmoji.setAttribute(
@@ -147,7 +147,6 @@ function getSearchCityTemp(newCity) {
 }
 
 function updateSearchCityCurrentWeather(response) {
-  console.log(response.data);
   let currentTemp = document.querySelector(`#current-temp`);
   let currentWeatherEmoji = document.querySelector(`#current-weather-emoji`);
   let currentWeatherDescription = document.querySelector(
@@ -170,43 +169,69 @@ function updateSearchCityCurrentWeather(response) {
 
   humidity.innerHTML = `humidity: ${updateHumidity}%`;
   currentTemp.innerHTML = `${temperature}`;
-  currentHigh.innerHTML = `H:${updateCurrentHigh}℉`;
-  currentLow.innerHTML = `L:${updateCurrentLow}℉`;
+  currentHigh.innerHTML = `H:${updateCurrentHigh}`;
+  currentLow.innerHTML = `L:${updateCurrentLow}`;
   wind.innerHTML = `wind: ${updateWind} mph`;
   currentWeatherEmoji.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${updateCurrentWeatherEmoji}@2x.png`
   );
   currentWeatherDescription.innerHTML = `${updateCurrentWeatherDescription}`;
+
+  getForecast(response.data.coord);
 }
 
-function displayForecast() {
-  let forecastElement = document.querySelector(`#forecast`);
-  let forecastHTML = "";
+function getForecast(coordinates) {
+  let lon = coordinates.lon;
+  let lat = coordinates.lat;
+  let apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`;
+  axios.get(apiURL).then(displayForecast);
+}
+
+function formatDays(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
   let days = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
-  days.forEach(function (days) {
-    forecastHTML =
-      forecastHTML +
-      `
+
+  return days[day];
+}
+
+function displayForecast(response) {
+  console.log(response.data.daily);
+  let forecastElement = document.querySelector(`#forecast`);
+  let forecast = response.data.daily;
+  let forecastHTML = "";
+  forecast.forEach(function (forecastDays, index) {
+    if (index < 5) {
+      forecastHTML =
+        forecastHTML +
+        `
     <div class="row-forecast">
-      <div class="col weather-forecast-date">${days}</div>
+      <div class="col weather-forecast-date">${formatDays(
+        forecastDays.dt
+      )}</div>
       <div class="col weather-forecast-emoji">
         <img
-          src="http://openweathermap.org/img/wn/10d@2x.png"
+          src="http://openweathermap.org/img/wn/${
+            forecastDays.weather[0].icon
+          }@2x.png"
           alt=""
           width="42"
         />
       </div>
-      <div class="col weather-forecast-high">95℉</div>
-      <div class="col weather-forecast-low">73℉</div>
+      <div class="col weather-forecast-high">${Math.round(
+        forecastDays.temp.max
+      )}</div>
+      <div class="col weather-forecast-low">${Math.round(
+        forecastDays.temp.min
+      )}</div>
     </div>
   `;
+    }
   });
 
   forecastElement.innerHTML = forecastHTML;
 }
-
-displayForecast();
 
 function convertToCelsius(event) {
   event.preventDefault();
@@ -219,8 +244,8 @@ function convertToCelsius(event) {
   let currentCelsiusHigh = Math.round((currentFahrenheitHigh - 32) * (5 / 9));
   let currentCelsiusLow = Math.round((currentFahrenheitLow - 32) * (5 / 9));
   currentTemp.innerHTML = `${currentCelsiusTemp}`;
-  currentHigh.innerHTML = `H:${currentCelsiusHigh}℃`;
-  currentLow.innerHTML = `L:${currentCelsiusLow}℃`;
+  currentHigh.innerHTML = `H:${currentCelsiusHigh}`;
+  currentLow.innerHTML = `L:${currentCelsiusLow}`;
 }
 
 function convertToFahrenheit(event) {
