@@ -104,15 +104,6 @@ a:hover {
   margin-top: 30px;
 }
 
-#location-button {
-  background: none;
-  border: none;
-  color: white;
-  text-transform: capitalize;
-  margin: 0 auto;
-  padding-left: 0;
-}
-
 #current-weather-description {
   text-align: center;
   color: white;
@@ -136,6 +127,25 @@ a:hover {
   margin-bottom: 0px;
   display: inline-block;
   padding-top: 15px;
+}
+
+#location-icon {
+  float: left;
+  color: #fff;
+  font-size: 25px;
+  margin-bottom: 0px;
+  display: inline-block;
+  padding-top: 15px;
+  padding-left: 7px;
+}
+
+#location-button {
+  background: none;
+  border: none;
+  color: white;
+  text-transform: capitalize;
+  margin: 0 auto;
+  padding-left: 0;
 }
 
 .units:hover {
@@ -163,9 +173,21 @@ a:hover {
   font-size: 45px;
 }
 
-#search-city {
-  display: block;
-  margin: 0 auto;
+.search-city {
+  float: right;
+  display: inline-block;
+  color: white;
+}
+
+#search-city-form {
+  display: inline;
+}
+
+#search-city-text {
+  margin-top: 25px;
+  display: inline;
+  display: inline;
+  margin-top: 25px;
   border: none;
   color: white;
   background-color: rgba(255, 255, 255, 0.3);
@@ -173,9 +195,10 @@ a:hover {
   text-align: center;
 }
 
-#search-city-button {
-  margin-top: 25px;
-  float: right;
+.search-city-button {
+  background: none;
+  border: none;
+  display: inline;
   color: white;
 }
 
@@ -189,4 +212,8 @@ a:hover {
 
 #current-low {
   width: 50%;
+}
+
+.active {
+  font-weight: 700;
 }

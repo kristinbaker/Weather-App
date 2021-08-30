@@ -1,7 +1,8 @@
 let currentData = new Date();
 let currentTime = document.querySelector("#current-time");
 let currentDate = document.querySelector("#current-date");
-let form = document.querySelector("#search-city-button");
+let form = document.querySelector("#search-city-form");
+let searchButton = document.querySelector(".search-city-button");
 let celsiusLink = document.querySelector("#celsius-link");
 let fahrenheitLink = document.querySelector("#fahrenheit-link");
 let apiKey = "f1b97e6818bf3a43bc9a1319c9ff238a";
@@ -12,6 +13,7 @@ let currentFahrenheitLow = null;
 
 celsiusLink.addEventListener("click", convertToCelsius);
 fahrenheitLink.addEventListener("click", convertToFahrenheit);
+searchButton.addEventListener("click", searchCity);
 form.addEventListener("keypress", searchCity);
 currentDate.innerText = updateDate(currentData);
 currentTime.innerText = updateTime(currentData);
@@ -87,6 +89,7 @@ function updateCurrentLocation(position) {
   axios.get(apiURL).then((response) => {
     showLocation(response);
     updateCurrentWeather(response);
+    getForecast(response.data.coord);
   });
 }
 
@@ -130,9 +133,9 @@ function updateCurrentWeather(response) {
 }
 
 function searchCity(event) {
-  if (event.charCode === 13) {
+  if (event.charCode === 13 || event.type === "click") {
     event.preventDefault();
-    let cityInput = document.querySelector("#search-city");
+    let cityInput = document.querySelector("#search-city-text");
     let newCity = cityInput.value;
     let currentLocation = document.querySelector("#current-location");
     currentLocation.innerHTML = `${cityInput.value}`;
@@ -238,12 +241,18 @@ function convertToCelsius(event) {
   let currentTemp = document.querySelector(`#current-temp`);
   let currentHigh = document.querySelector(`#current-high`);
   let currentLow = document.querySelector(`#current-low`);
+  let farenheit = document.querySelector(`#fahrenheit-link`);
+  let celsius = document.querySelector(`#celsius-link`);
+  farenheit.classList.remove("active");
+  celsius.classList.add("active");
+
   let currentCelsiusTemp = Math.round(
     (currentFahrenheitTemperature - 32) * (5 / 9)
   );
   let currentCelsiusHigh = Math.round((currentFahrenheitHigh - 32) * (5 / 9));
   let currentCelsiusLow = Math.round((currentFahrenheitLow - 32) * (5 / 9));
   currentTemp.innerHTML = `${currentCelsiusTemp}`;
+
   currentHigh.innerHTML = `H:${currentCelsiusHigh}`;
   currentLow.innerHTML = `L:${currentCelsiusLow}`;
 }
@@ -257,6 +266,6 @@ function convertToFahrenheit(event) {
   let updateFahrenheitLow = Math.round(currentFahrenheitLow);
 
   currentTemp.innerHTML = Math.round(currentFahrenheitTemperature);
-  currentHigh.innerHTML = `H:${updateFahrenheitHigh}℉`;
-  currentLow.innerHTML = `L:${updateFahrenheitLow}℉`;
+  currentHigh.innerHTML = `H:${updateFahrenheitHigh}`;
+  currentLow.innerHTML = `L:${updateFahrenheitLow}`;
 }
