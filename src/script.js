@@ -19,9 +19,9 @@ currentDate.innerText = updateDate(currentData);
 currentTime.innerText = updateTime(currentData);
 findLocation();
 
-function updateTime() {
-  let currentHour = currentData.getHours();
-  let currentMinutes = currentData.getMinutes();
+function updateTime(date) {
+  let currentHour = date.getHours();
+  let currentMinutes = date.getMinutes();
   let timeOfDay;
 
   if (currentMinutes < 10) {
@@ -130,6 +130,8 @@ function updateCurrentWeather(response) {
     `http://openweathermap.org/img/wn/${updateCurrentWeatherEmoji}@2x.png`
   );
   currentWeatherDescription.innerHTML = `${updateCurrentWeatherDescription}`;
+
+  getForecast(response.data.coord);
 }
 
 function searchCity(event) {
@@ -146,42 +148,7 @@ function searchCity(event) {
 
 function getSearchCityTemp(newCity) {
   let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${newCity}&units=${units}&appid=${apiKey}`;
-  axios.get(apiURL).then(updateSearchCityCurrentWeather);
-}
-
-function updateSearchCityCurrentWeather(response) {
-  let currentTemp = document.querySelector(`#current-temp`);
-  let currentWeatherEmoji = document.querySelector(`#current-weather-emoji`);
-  let currentWeatherDescription = document.querySelector(
-    `#current-weather-description`
-  );
-  currentFahrenheitTemperature = response.data.main.temp;
-  currentFahrenheitHigh = response.data.main.temp_max;
-  currentFahrenheitLow = response.data.main.temp_min;
-  let currentHigh = document.querySelector(`#current-high`);
-  let currentLow = document.querySelector(`#current-low`);
-  let wind = document.querySelector(`#wind`);
-  let humidity = document.querySelector(`#humidity`);
-  let temperature = Math.round(currentFahrenheitTemperature);
-  let updateCurrentWeatherEmoji = response.data.weather[0].icon;
-  let updateCurrentWeatherDescription = response.data.weather[0].description;
-  let updateCurrentHigh = Math.round(currentFahrenheitHigh);
-  let updateCurrentLow = Math.round(currentFahrenheitLow);
-  let updateWind = Math.round(response.data.wind.speed);
-  let updateHumidity = Math.round(response.data.main.humidity);
-
-  humidity.innerHTML = `humidity: ${updateHumidity}%`;
-  currentTemp.innerHTML = `${temperature}`;
-  currentHigh.innerHTML = `H:${updateCurrentHigh}`;
-  currentLow.innerHTML = `L:${updateCurrentLow}`;
-  wind.innerHTML = `wind: ${updateWind} mph`;
-  currentWeatherEmoji.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${updateCurrentWeatherEmoji}@2x.png`
-  );
-  currentWeatherDescription.innerHTML = `${updateCurrentWeatherDescription}`;
-
-  getForecast(response.data.coord);
+  axios.get(apiURL).then(updateCurrentWeather);
 }
 
 function getForecast(coordinates) {
