@@ -148,24 +148,12 @@ a:hover {
   padding-left: 0;
 }
 
-.units:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.units {
-  text-decoration: none;
-  color: white;
-  display: inline-block;
-  line-height: 50px;
-  vertical-align: top;
-  font-size: 15px;
-}
+/* 
 
 #fahrenheit-link:hover {
   text-decoration: underline;
   cursor: pointer;
-}
+} */
 
 #current-temp {
   text-align: center;
@@ -214,6 +202,25 @@ a:hover {
   width: 50%;
 }
 
-.active {
+.units {
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  line-height: 50px;
+  vertical-align: top;
+  font-size: 15px;
+}
+
+.units:hover {
+  text-decoration: underline;
+}
+
+.units .active {
   font-weight: 700;
+  opacity: 40%;
+}
+
+.units.active:hover {
+  text-decoration: none;
+  cursor: default;
 }
