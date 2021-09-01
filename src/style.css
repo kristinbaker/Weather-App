@@ -123,7 +123,7 @@ a:hover {
 
 #current-location {
   float: left;
-  color: #fff;
+  color: white;
   font-size: 25px;
   margin-bottom: 0px;
   display: inline-block;
@@ -196,6 +196,11 @@ a:hover {
   width: 50%;
 }
 
+.units.active {
+  font-weight: bolder;
+  font-size: 20px;
+}
+
 .units {
   text-decoration: none;
   color: white;
@@ -207,10 +212,6 @@ a:hover {
 
 .units:hover {
   text-decoration: underline;
-}
-
-.units .active {
-  font-weight: bold;
 }
 
 .units.active:hover {
