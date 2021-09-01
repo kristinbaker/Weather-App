@@ -80,18 +80,19 @@ h1 {
 }
 
 .footer {
-  margin-top: 60px;
+  margin-top: 14px;
   display: block;
-  color: grey;
+  color: #4b4c4e;
   text-align: center;
 }
 a {
-  text-decoration-color: grey;
+  text-decoration: none;
   color: grey;
 }
 
 a:hover {
-  color: white;
+  text-decoration: underline;
+  color: #4b4c4e;
 }
 
 .current-rain-wind {
@@ -147,13 +148,6 @@ a:hover {
   margin: 0 auto;
   padding-left: 0;
 }
-
-/* 
-
-#fahrenheit-link:hover {
-  text-decoration: underline;
-  cursor: pointer;
-} */
 
 #current-temp {
   text-align: center;
@@ -216,11 +210,11 @@ a:hover {
 }
 
 .units .active {
-  font-weight: 700;
-  opacity: 40%;
+  font-weight: bold;
 }
 
 .units.active:hover {
   text-decoration: none;
   cursor: default;
+  color: white;
 }

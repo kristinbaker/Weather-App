@@ -1,18 +1,20 @@
 let currentData = new Date();
 let apiKey = "f1b97e6818bf3a43bc9a1319c9ff238a";
 let units = `imperial`;
-let currentTime = document.querySelector("#current-time");
-let currentDate = document.querySelector("#current-date");
-let form = document.querySelector("#search-city-form");
+let currentTime = document.querySelector(`#current-time`);
+let currentDate = document.querySelector(`#current-date`);
+let form = document.querySelector(`#search-city-form`);
 let searchButton = document.querySelector(".search-city-button");
-let celsiusLink = document.querySelector("#celsius-link");
-let fahrenheitLink = document.querySelector("#fahrenheit-link");
+let celsiusLink = document.querySelector(`#celsius-link`);
+let fahrenheitLink = document.querySelector(`#fahrenheit-link`);
 let currentTemp = document.querySelector(`#current-temp`);
 let currentHigh = document.querySelector(`#current-high`);
 let currentLow = document.querySelector(`#current-low`);
 let currentFahrenheitTemperature = null;
 let currentFahrenheitHigh = null;
 let currentFahrenheitLow = null;
+let forecastHighs = null;
+let forecastLows = null;
 
 celsiusLink.addEventListener("click", convertToCelsius);
 fahrenheitLink.addEventListener("click", convertToFahrenheit);
@@ -103,7 +105,6 @@ function showLocation(response) {
 }
 
 function updateCurrentWeather(response) {
-  let currentTemp = document.querySelector(`#current-temp`);
   let currentWeatherEmoji = document.querySelector(`#current-weather-emoji`);
   let currentWeatherDescription = document.querySelector(
     `#current-weather-description`
@@ -111,8 +112,6 @@ function updateCurrentWeather(response) {
   currentFahrenheitTemperature = response.data.main.temp;
   currentFahrenheitHigh = response.data.main.temp_max;
   currentFahrenheitLow = response.data.main.temp_min;
-  let currentHigh = document.querySelector(`#current-high`);
-  let currentLow = document.querySelector(`#current-low`);
   let wind = document.querySelector(`#wind`);
   let humidity = document.querySelector(`#humidity`);
   let temperature = Math.round(currentFahrenheitTemperature);
@@ -174,6 +173,8 @@ function displayForecast(response) {
   let forecast = response.data.daily;
   let forecastHTML = "";
   forecast.forEach(function (forecastDays, index) {
+    forecastHighs = Math.round(forecastDays.temp.max);
+    forecastLows = Math.round(forecastDays.temp.min);
     if (index > 0 && index < 6) {
       forecastHTML =
         forecastHTML +
@@ -191,12 +192,8 @@ function displayForecast(response) {
           width="42"
         />
       </div>
-      <div class="col weather-forecast-high">${Math.round(
-        forecastDays.temp.max
-      )}</div>
-      <div class="col weather-forecast-low">${Math.round(
-        forecastDays.temp.min
-      )}</div>
+      <div class="col weather-forecast-high">${forecastHighs}</div>
+      <div class="col weather-forecast-low">${forecastLows}</div>
     </div>
   `;
     }
@@ -214,10 +211,12 @@ function convertToCelsius(event) {
   );
   let currentCelsiusHigh = Math.round((currentFahrenheitHigh - 32) * (5 / 9));
   let currentCelsiusLow = Math.round((currentFahrenheitLow - 32) * (5 / 9));
-
   currentTemp.innerHTML = `${currentCelsiusTemp}`;
   currentHigh.innerHTML = `H:${currentCelsiusHigh}`;
   currentLow.innerHTML = `L:${currentCelsiusLow}`;
+  convertForecast(document.querySelectorAll(".weather-forecast-high"), true);
+  convertForecast(document.querySelectorAll(".weather-forecast-low"), true);
+  // let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 }
 
 function convertToFahrenheit(event) {
@@ -230,4 +229,24 @@ function convertToFahrenheit(event) {
   currentTemp.innerHTML = Math.round(currentFahrenheitTemperature);
   currentHigh.innerHTML = `H:${updateFahrenheitHigh}`;
   currentLow.innerHTML = `L:${updateFahrenheitLow}`;
+  convertForecast(document.querySelectorAll(".weather-forecast-high"), false);
+  convertForecast(document.querySelectorAll(".weather-forecast-low"), false);
+}
+
+function convertForecast(forecastList, celsius) {
+  forecastList.forEach(function (forecastElement) {
+    if (celsius) {
+      forecastElement.innerText = calculateCelsius(forecastElement.innerText);
+    } else {
+      forecastElement.innerText = calculateFarenheit(forecastElement.innerText);
+    }
+  });
+}
+
+function calculateCelsius(temp) {
+  return Math.round((temp - 32) * (5 / 9));
+}
+
+function calculateFarenheit(temp) {
+  return Math.round(temp * (9 / 5) + 32);
 }
